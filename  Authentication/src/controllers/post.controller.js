@@ -1,20 +1,20 @@
-const  express = require("express");
-const  Post =  require("../models/post.model");
+const express = require("express");
+const Post = require("../models/post.model");
 const authenticate = require("../middlewares/authenticate")
 const router = express.Router();
 // console.log(authenticate)
 
 
 
-router.post("/", authenticate, async (req,res) => {
+router.post("/", authenticate, async (req, res) => {
 
     try {
         const user = req.user;
-        console.log("user",user);
+        console.log("user", user);
         const post = await Post.create({
             name: req.body.name,
-            body:req.body.body,
-            title:req.body.title,
+            body: req.body.body,
+            title: req.body.title,
             image_urls: ["www.google.com"],
             user_id: user.user._id,
         });
@@ -26,7 +26,7 @@ router.post("/", authenticate, async (req,res) => {
     }
 });
 
-router.get("/",async (req, res) => {
+router.get("/", async (req, res) => {
     const posts = await Post.find().lean().exec();
     return res.send(posts);
 });
